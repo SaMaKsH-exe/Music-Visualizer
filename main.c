@@ -63,7 +63,8 @@ float amp(float complex z)
 {
   float a = fabsf(crealf(z));
   float b = fabsf(cimagf(z));
-  return a > b ? a : b;
+  if(a < b) return b;
+  return a;
 }
 
 int main(void)
@@ -84,8 +85,7 @@ int main(void)
       if (a > max_amplitude)
         max_amplitude = a;
     }
-    if (max_amplitude < 1.0f)
-      max_amplitude = 1.0f;
+
 
     int width = rb_GetRenderWidth();
     int height = rb_GetRenderHeight();
@@ -103,7 +103,7 @@ int main(void)
       int x = (int)(i * cell_width);
       int y = (int)(height / 2 - (height / 2.0f * t));
       int w = (int)ceilf(cell_width);
-      int h = (int)(height * t);
+      int h = (int)(height/2 * t);
 
       rb_Color red = {255, 0, 0, 255};
       rb_DrawRectangle(x, y, w, h, red);
