@@ -1,59 +1,15 @@
+# Minimal ignores for Music-Visualizer
+
 # Compiled binaries
 *.exe
-*.out
-a.exe
 
-# Object files and libraries
-*.o
-*.obj
-*.a
-*.lib
-*.so
-*.dll
-*.dylib
-*.exp
-*.pdb
-*.ilk
+# Build directories (if created later)
+bin/
+obj/
 
-# Build directories
-/build/
-/bin/
-/obj/
-/out/
-/Debug/
-/Release/
-/x64/
-/x86/
-
-# Logs
-*.log
-
-# OS/filesystem noise
-Thumbs.db
-Desktop.ini
-
-# IDE/editor settings
-.vscode/
-.vs/
+# Editor workspace files
 *.code-workspace
 
-# CMake / Ninja
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-build.ninja
-.ninja_deps
-.ninja_log
-
-# Large media not tracked in git (keep the GitHub URL in README)
+# Local demo video; keep untracked
 Video.mp4
-
-# Vendor/deps (uncomment if these are generated locally rather than tracked)
-# raylib/
-# lib/
-
-# Archives
-*.zip
-*.7z
-*.tar
-*.gz
+hanuman.wav
