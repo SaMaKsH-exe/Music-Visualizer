@@ -13,3 +13,6 @@ obj/
 # Local demo video; keep untracked
 Video.mp4
 hanuman.wav
+
+.vscode/   
+.vscode
