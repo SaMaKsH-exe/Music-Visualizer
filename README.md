@@ -4,8 +4,5 @@
 
 ### Demo
 
-<video width="720" controls>
-  <source src="Video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-  <a href="Video.mp4">Download the video</a>.
-</video>
+
+Direct link: [Video.mp4](Video.mp4)
