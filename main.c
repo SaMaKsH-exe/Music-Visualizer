@@ -69,7 +69,7 @@ float amp(float complex z)
 
 int main(void)
 {
-  rb_InitWindow(800, 600, "Sickass Audio Visualizer");
+  rb_InitWindow(800, 400, "Sickass Audio Visualizer");
   rb_SetTargetFPS(60);
 
   while (!rb_WindowShouldClose())
@@ -101,7 +101,7 @@ int main(void)
         t = 1.0f;
 
       int x = (int)(i * cell_width);
-      int y = (int)(height / 2 - (height / 2.0f * t));
+      int y = (int)(height - (height / 2.0f * t));
       int w = (int)ceilf(cell_width);
       int h = (int)(height/2 * t);
 
