@@ -28,11 +28,12 @@
 #define rb_CloseWindow RB_CloseWindow
 #define rb_Color Color
 
-#define N 256
+#define N 64
 
 float in[N];
 float complex out[N];
 float max_amplitude;
+float prev_amp[N / 2] = {0};
 
 void capture_system_audio(float *buffer, int samples);
 
@@ -61,10 +62,7 @@ void fft(float in[], size_t stride, float complex out[], size_t step)
 
 float amp(float complex z)
 {
-  float a = fabsf(crealf(z));
-  float b = fabsf(cimagf(z));
-  if(a < b) return b;
-  return a;
+  return cabsf(z);
 }
 
 int main(void)
@@ -76,6 +74,12 @@ int main(void)
   {
     capture_system_audio(in, N);
 
+    for (int i = 0; i < N; i++)
+    {
+      float w = 0.5f * (1 - cosf(2 * PI * i / (N - 1))); // Hann window
+      in[i] *= w;
+    }
+
     fft(in, 1, out, N);
 
     max_amplitude = 0.0f;
@@ -86,6 +90,8 @@ int main(void)
         max_amplitude = a;
     }
 
+    if (max_amplitude < 1e-6f)
+      max_amplitude = 1e-6f;
 
     int width = rb_GetRenderWidth();
     int height = rb_GetRenderHeight();
@@ -100,10 +106,14 @@ int main(void)
       if (t > 1.0f)
         t = 1.0f;
 
+      t = prev_amp[i] * 0.7f + t * 0.3f;
+      prev_amp[i] = t;
+      t = logf(1 + 9 * t) / logf(10);
+
       int x = (int)(i * cell_width);
       int y = (int)(height - (height / 2.0f * t));
       int w = (int)ceilf(cell_width);
-      int h = (int)(height/2 * t);
+      int h = (int)(height / 2 * t);
 
       rb_Color red = {255, 0, 0, 255};
       rb_DrawRectangle(x, y, w, h, red);
