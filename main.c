@@ -4,6 +4,9 @@
 #include <complex.h>
 #include <assert.h>
 
+#include "raylib.h"
+
+
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #define Rectangle RB_Rectangle
@@ -13,8 +16,6 @@
 #define ShowCursor RB_ShowCursor
 #define LoadImage RB_LoadImage
 #define PlaySound RB_PlaySound
-
-#include "raylib.h"
 
 #define rb_InitWindow InitWindow
 #define rb_SetTargetFPS SetTargetFPS
@@ -28,7 +29,7 @@
 #define rb_CloseWindow RB_CloseWindow
 #define rb_Color Color
 
-#define N 64
+#define N 1024
 
 float in[N];
 float complex out[N];

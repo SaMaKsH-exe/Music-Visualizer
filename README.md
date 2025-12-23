@@ -1,10 +1,10 @@
-# Music Visualizer 
+# Music Visualizer
 
-### A music visualizer in C built by following Tsoding recreational series. 
+A real-time music visualizer implemented in C using raylib. Inspired by Tsoding’s recreational series.
 
-https://www.youtube.com/watch?v=Xdbk1Pr5WXU&list=PLpM-Dvs8t0Vak1rrE2NJn8XYEJ5M7-BqT 
+## Video tutorial
+- https://www.youtube.com/watch?v=Xdbk1Pr5WXU&list=PLpM-Dvs8t0Vak1rrE2NJn8XYEJ5M7-BqT
 
-### Demo
+## Demo assets
+- https://github.com/user-attachments/assets/e06359bc-bfe4-499a-a474-46f4e58f325c
 
-
-https://github.com/user-attachments/assets/e06359bc-bfe4-499a-a474-46f4e58f325c
