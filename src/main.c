@@ -4,6 +4,8 @@
 #include <complex.h>
 #include <assert.h>
 
+#include "plug.h"
+
 #include "raylib.h"
 
 
@@ -68,6 +70,9 @@ float amp(float complex z)
 
 int main(void)
 {
+
+  plug_hello();
+  return 0;
   rb_InitWindow(800, 400, "Sickass Audio Visualizer");
   rb_SetTargetFPS(60);
 

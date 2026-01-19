@@ -53,13 +53,61 @@ void capture_system_audio(float *buffer, int samples)
 
         if (pData)
         {
-            // assume 16-bit stereo PCM (typical for mix format)
-            short *samplesData = (short *)pData;
             int framesToCopy = (int)numFrames < samples ? (int)numFrames : samples;
-            for (int i = 0; i < framesToCopy; i++)
+            WORD channels = pwfx->nChannels;
+            WORD bitsPerSample = pwfx->wBitsPerSample;
+            
+            // Handle different audio formats
+            if (pwfx->wFormatTag == WAVE_FORMAT_IEEE_FLOAT && bitsPerSample == 32)
             {
-                buffer[i] = samplesData[i * 2] / 32768.0f; // left channel
+                // 32-bit float format
+                float *floatData = (float *)pData;
+                for (int i = 0; i < framesToCopy; i++)
+                {
+                    buffer[i] = floatData[i * channels]; // left channel
+                }
             }
+            else if (bitsPerSample == 16)
+            {
+                // 16-bit PCM format
+                short *samplesData = (short *)pData;
+                for (int i = 0; i < framesToCopy; i++)
+                {
+                    buffer[i] = samplesData[i * channels] / 32768.0f; // left channel
+                }
+            }
+            else if (bitsPerSample == 24)
+            {
+                // 24-bit PCM format
+                BYTE *byteData = (BYTE *)pData;
+                for (int i = 0; i < framesToCopy; i++)
+                {
+                    int idx = i * channels * 3;
+                    int sample = (byteData[idx + 2] << 16) | (byteData[idx + 1] << 8) | byteData[idx];
+                    if (sample & 0x800000) sample |= 0xFF000000; // sign extend
+                    buffer[i] = sample / 8388608.0f; // left channel
+                }
+            }
+            else if (bitsPerSample == 32 && pwfx->wFormatTag != WAVE_FORMAT_IEEE_FLOAT)
+            {
+                // 32-bit PCM format
+                int *intData = (int *)pData;
+                for (int i = 0; i < framesToCopy; i++)
+                {
+                    buffer[i] = intData[i * channels] / 2147483648.0f; // left channel
+                }
+            }
+            else
+            {
+                // Fallback: assume 16-bit PCM
+                short *samplesData = (short *)pData;
+                for (int i = 0; i < framesToCopy; i++)
+                {
+                    buffer[i] = samplesData[i * channels] / 32768.0f;
+                }
+            }
+            
+            // Zero out remaining samples
             for (int i = framesToCopy; i < samples; i++)
             {
                 buffer[i] = 0.0f;
