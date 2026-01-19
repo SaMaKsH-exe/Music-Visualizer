@@ -1,6 +1,7 @@
 # Minimal ignores for Music-Visualizer
 
-Build/
+build/
+
 
 # Editor workspace files
 *.code-workspace
