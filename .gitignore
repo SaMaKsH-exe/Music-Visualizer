@@ -1,18 +1,13 @@
 # Minimal ignores for Music-Visualizer
 
-# Compiled binaries
-*.exe
-
-# Build directories (if created later)
-bin/
-obj/
+Build/
 
 # Editor workspace files
 *.code-workspace
 
-# Local demo video; keep untracked
+# Local demo video
 Video.mp4
-hanuman.wav
+
 
 .vscode/   
 .vscode
