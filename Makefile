@@ -1,7 +1,18 @@
 CC = gcc
-LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm -lole32 -luuid
 TARGET = music_visualizer.exe
-SRC = main.c audioCapture.c
+
+ifeq ($(OS),Windows_NT)
+	LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm -lole32 -luuid
+	SRC = main.c audioCaptureWindows.c
+
+	RM = del
+else
+	LIBS = -lraylib -lasound -lm
+	SRC = main.c audioCaptureLinux.c
+
+	TARGET = music_visualizer
+	RM = rm -f
+endif
 
 all: $(TARGET)
 
@@ -12,4 +23,4 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	del $(TARGET)
+	$(RM) $(TARGET)
