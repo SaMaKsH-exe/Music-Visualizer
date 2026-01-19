@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -fPIC
+INCLUDES = -Isrc -Iheader
 BUILD_DIR = build
 SRC_DIR = src
 TARGET = $(BUILD_DIR)/music_visualizer.exe
@@ -10,8 +11,9 @@ ifeq ($(OS),Windows_NT)
 	SRC = $(SRC_DIR)/main.c $(SRC_DIR)/audioCaptureWindows.c $(SRC_DIR)/plug.c
 	PLUGIN_SRC = $(SRC_DIR)/plug.c
 	PLUGIN = $(BUILD_DIR)/libpplug.dll
-	RM = del /Q
+	RM = del /Q /F
 	MKDIR = if not exist $(BUILD_DIR) mkdir $(BUILD_DIR)
+	CLEAN_TARGET = $(BUILD_DIR)\*
 else
 	LIBS = -lraylib -lasound -lm
 	SRC = $(SRC_DIR)/main.c $(SRC_DIR)/audioCaptureLinux.c $(SRC_DIR)/plug.c
@@ -19,20 +21,21 @@ else
 	TARGET = $(BUILD_DIR)/music_visualizer
 	RM = rm -f
 	MKDIR = mkdir -p $(BUILD_DIR)
+	CLEAN_TARGET = $(BUILD_DIR)/*
 endif
 
 all: $(TARGET) $(PLUGIN)
 
 $(TARGET): $(SRC)
-	@if not exist $(BUILD_DIR) mkdir $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LIBS)
+	@$(MKDIR)
+	$(CC) $(CFLAGS) $(INCLUDES) $(SRC) -o $(TARGET) $(LIBS)
 
 $(PLUGIN): $(PLUGIN_SRC)
-	@if not exist $(BUILD_DIR) mkdir $(BUILD_DIR)
-	$(CC) $(CFLAGS) -shared $(PLUGIN_SRC) -o $(PLUGIN) $(LIBS)
+	@$(MKDIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -shared $(PLUGIN_SRC) -o $(PLUGIN) $(LIBS)
 
 run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	$(RM) $(BUILD_DIR)\*
+	$(RM) $(CLEAN_TARGET)
